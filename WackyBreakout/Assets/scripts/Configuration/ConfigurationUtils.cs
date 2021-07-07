@@ -132,6 +132,25 @@ public static class ConfigurationUtils
         get { return configurationData.BallsPerGame; }    
     }
 
+    /// <summary>
+    /// Freezer Duration Timer
+    /// </summary>
+    /// <value>freezer block duration</value>
+    public static float FreezerDuration
+    {
+        get { return configurationData.FreezerDuration; }
+    }
+
+    public static float SpeedUpEffect
+    {
+        get { return configurationData.SpeedUpEffect; }
+    }
+
+    public static float SpeedUpDuration
+    {
+        get { return configurationData.SpeedUpDuration; }
+    }
+
     #endregion
 
     /// <summary>

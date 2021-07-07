@@ -29,7 +29,7 @@ public class Block : MonoBehaviour
     /// Destroys the block on collision with a ball
     /// </summary>
     /// <param name="coll">Coll.</param>
-    void OnCollisionEnter2D(Collision2D coll)
+    virtual protected void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag("Ball"))
         {

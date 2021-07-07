@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 3669d4839af8ea54e8a3c39632d04d55
-timeCreated: 1504403926
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - freezerSprite: {fileID: 21300000, guid: 34c44da1a5f3c0a468136d660b8fd600, type: 3}
+  - speedupSprite: {fileID: 21300000, guid: d640f7d127f777747b36fdd79be9d038, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

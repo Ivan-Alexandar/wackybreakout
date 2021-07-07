@@ -11,6 +11,7 @@ public class Timer : MonoBehaviour
 	
 	// timer duration
 	float totalSeconds = 0;
+	float secondsLeft = 0;
 	
 	// timer execution
 	float elapsedSeconds = 0;
@@ -57,6 +58,20 @@ public class Timer : MonoBehaviour
     {
 		get { return running; }
 	}
+	public float SecondsLeft
+    {
+        get
+        {
+            if (running)
+            {
+				return totalSeconds - elapsedSeconds;
+            }
+            else
+            {
+				return 0;
+            }
+        }
+    }
 
     #endregion
 
@@ -75,6 +90,7 @@ public class Timer : MonoBehaviour
             {
 				running = false;
 			}
+			
 		}
 	}
 	
@@ -104,6 +120,9 @@ public class Timer : MonoBehaviour
         started = false;
         running = false;
     }
-
+	public void AddTime(float duration)
+    {
+		totalSeconds += duration;
+    }
 	#endregion
 }

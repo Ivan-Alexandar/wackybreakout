@@ -12,6 +12,10 @@ public class Paddle : MonoBehaviour
     float halfColliderWidth;
     float halfColliderHeight;
 
+    //freeze effect timer
+    bool paddleIsFrozen = false;
+    Timer freezeTimer;
+
     // aiming support
     const float BounceAngleHalfRange = 60 * Mathf.Deg2Rad;
 
@@ -25,6 +29,10 @@ public class Paddle : MonoBehaviour
         BoxCollider2D bc2d = GetComponent<BoxCollider2D>();
         halfColliderWidth = bc2d.size.x / 2;
         halfColliderHeight = bc2d.size.y / 2;
+
+        //adds a timer to the gameObject / adds the new method as a listener to the FreezeEffectActivatedEvent.
+        freezeTimer = gameObject.AddComponent<Timer>();
+        EventManager.AddFreezerEffectListener(HandleFreezeEffectActivatedEvent);
 	}
 	
 	/// <summary>
@@ -32,8 +40,16 @@ public class Paddle : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		
+        //unfreezes the paddle when the timer finishes. Stops the timer.
+        if (freezeTimer.Finished)
+        {
+            paddleIsFrozen = false;
+            freezeTimer.Stop();
+        }
 	}
+
+
+
 
     /// <summary>
     /// FixedUpdate is called 50 times per second
@@ -44,11 +60,16 @@ public class Paddle : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         if (horizontalInput != 0)
         {
-            Vector2 position = rb2d.position;
-            position.x += horizontalInput * ConfigurationUtils.PaddleMoveUnitsPerSecond *
-                Time.deltaTime;
-            position.x = CalculateClampedX(position.x);
-            rb2d.MovePosition(position);
+            // only moves the paddle if it isn't frozen
+            if (paddleIsFrozen == false)
+            {
+                Vector2 position = rb2d.position;
+                position.x += horizontalInput * ConfigurationUtils.PaddleMoveUnitsPerSecond *
+                    Time.deltaTime;
+                position.x = CalculateClampedX(position.x);
+                rb2d.MovePosition(position);
+            }
+
         }
     }
 
@@ -107,5 +128,22 @@ public class Paddle : MonoBehaviour
         // on top collisions, both contact points are at the same y location
         ContactPoint2D[] contacts = coll.contacts;
         return Mathf.Abs(contacts[0].point.y - contacts[1].point.y) < tolerance;
+    }
+    //Handles the freeze effect activated event
+    void HandleFreezeEffectActivatedEvent(float duration)
+    {
+        //freezes the paddle and runs or adds a timer
+        paddleIsFrozen = true;
+        if (!freezeTimer.Running)
+        {
+            //starts a new timer if it isn't running
+            freezeTimer.Duration = duration;
+            freezeTimer.Run();
+        }
+        else
+        {
+            //adds time to the timer if it is already running
+            freezeTimer.AddTime(duration);
+        }
     }
 }

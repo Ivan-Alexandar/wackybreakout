@@ -13,11 +13,19 @@ public class Ball : MonoBehaviour
     // death timer
     Timer deathTimer;
 
+    //speedup timer
+    Rigidbody2D rb2d;
+    Timer speedUpTimer;
+    float speedUpFactor;
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
 	void Start()
 	{
+        //speedup effect support
+        speedUpTimer = gameObject.AddComponent<Timer>();
+        EventManager.AddSpeedUpEffectListener(HandleSpeedUpEffectActivatedEvent);
+        rb2d = GetComponent<Rigidbody2D>();
         // start move timer
         moveTimer = gameObject.AddComponent<Timer>();
         moveTimer.Duration = 1;
@@ -47,6 +55,11 @@ public class Ball : MonoBehaviour
             // spawn new ball and destroy self
             Camera.main.GetComponent<BallSpawner>().SpawnBall();
             Destroy(gameObject);
+        }
+        if (speedUpTimer.Finished)
+        {
+            speedUpTimer.Stop();
+            rb2d.velocity *= 1 / speedUpFactor;
         }
 	}
 
@@ -93,5 +106,23 @@ public class Ball : MonoBehaviour
         Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
         float speed = rb2d.velocity.magnitude;
         rb2d.velocity = direction * speed;
+    }
+    void HandleSpeedUpEffectActivatedEvent(float duration, float speedUpFactor)
+    {
+        if (!speedUpTimer.Running)
+        {
+            StartSpeedUpEffect(duration, speedUpFactor);
+            rb2d.velocity *= speedUpFactor;
+        }
+        else
+        {
+            speedUpTimer.AddTime(duration);
+        }
+    }
+    void StartSpeedUpEffect(float duration, float speedUpFactor)
+    {
+        this.speedUpFactor = speedUpFactor;
+        speedUpTimer.Duration = duration;
+        speedUpTimer.Run();
     }
 }

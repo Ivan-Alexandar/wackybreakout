@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: c544c07fbe6a8ff48b5eba26efc48878
+guid: 8cd6096807964d04b8df49a22b902304
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - prefabBall: {fileID: 1209395022349424, guid: 40813c69a188dd041a210183242c15db,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
