@@ -5,13 +5,20 @@ using UnityEngine.Events;
 
 public static class EffectUtils
 {
-    static SpeedUpEffectMonitor speedUpEffectMonitor;
+    static SpeedUpEffectMonitor GetSpeedUpEffectMonitor
+    {
+        get { return Camera.main.GetComponent<SpeedUpEffectMonitor>(); }
+    }
     public static bool SpeedUpEffectActive
     {
-        get { return speedUpEffectMonitor.SpeedUpEffectActive; }
+        get { return GetSpeedUpEffectMonitor.SpeedUpEffectActive; }
     }
     public static float SpeedUpEffectSecondsLeft
     {
-        get { return speedUpEffectMonitor.SpeedUpEffectSecondsLeft; }
+        get { return GetSpeedUpEffectMonitor.SpeedUpEffectSecondsLeft; }
+    }
+    public static float SpeedUpFactor
+    {
+        get { return GetSpeedUpEffectMonitor.SpeedUpFactor; }
     }
 }

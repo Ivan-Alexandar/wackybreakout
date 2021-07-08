@@ -94,6 +94,11 @@ public class Ball : MonoBehaviour
             ConfigurationUtils.BallImpulseForce * Mathf.Cos(angle),
             ConfigurationUtils.BallImpulseForce * Mathf.Sin(angle));
         GetComponent<Rigidbody2D>().AddForce(force);
+        if (EffectUtils.SpeedUpEffectActive)
+        {
+            StartSpeedUpEffect(EffectUtils.SpeedUpEffectSecondsLeft, EffectUtils.SpeedUpFactor);
+            force *= speedUpFactor;
+        }
     }
 
     /// <summary>
