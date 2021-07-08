@@ -33,10 +33,28 @@ public class SpeedUpEffectMonitor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (speedUpEffectTimer.Finished)
+        {
+            speedUpEffectTimer.Stop();
+            speedUpFactor = 1;
+        }
     }
+    /// <summary>
+    /// Handles the SpeedUpEffectActivatedEvent
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="speedUpFactor"></param>
     void HandleSpeedUpEffectActivatedEvent(float duration, float speedUpFactor)
     {
-
+        if (!speedUpEffectTimer.Running)
+        {
+            this.speedUpFactor = speedUpFactor;
+            speedUpEffectTimer.Duration = duration;
+            speedUpEffectTimer.Run();
+        }
+        else
+        {
+            speedUpEffectTimer.AddTime(duration);
+        }
     }
 }

@@ -292,8 +292,8 @@ Canvas:
   m_GameObject: {fileID: 1141794570}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1957610538}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 1957610544}
   - component: {fileID: 1957610545}
   - component: {fileID: 1957610537}
+  - component: {fileID: 1957610546}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -716,3 +717,15 @@ MonoBehaviour:
     type: 3}
   prefabPickupBlock: {fileID: 1031165860632524, guid: c2baaf6b0d17e1043b41e6f26d221200,
     type: 3}
+--- !u!114 &1957610546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957610534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d821aa50840551340a35e88a75f1aa1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
