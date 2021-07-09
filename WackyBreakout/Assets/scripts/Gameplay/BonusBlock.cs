@@ -10,10 +10,11 @@ public class BonusBlock : Block
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
-	void Start()
+	override protected void Start()
 	{
         // set points
         points = ConfigurationUtils.BonusBlockPoints;
+		base.Start();
 	}
 	
 	/// <summary>

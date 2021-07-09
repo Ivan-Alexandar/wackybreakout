@@ -17,7 +17,7 @@ public class StandardBlock : Block
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
-	void Start()
+	override protected void Start()
 	{
         // set points and random sprite
         points = ConfigurationUtils.StandardBlockPoints;
@@ -35,6 +35,7 @@ public class StandardBlock : Block
         {
             spriteRenderer.sprite = sprite2;
         }
+        base.Start();
 	}
 	
 	/// <summary>

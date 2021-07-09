@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// A block
@@ -8,13 +9,15 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     protected int points;
-
+	PointsAdded pointsAdded;
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
-	void Start()
+	virtual protected void Start()
 	{
-
+		pointsAdded = new PointsAdded();
+		EventManager.AddPointsAddedInvoker(this);
+		
 	}
 	
 	/// <summary>
@@ -33,8 +36,12 @@ public class Block : MonoBehaviour
     {
         if (coll.gameObject.CompareTag("Ball"))
         {
-            HUD.AddPoints(points);
+			pointsAdded.Invoke(points);
             Destroy(gameObject);
         }
+    }
+	public void AddPointsAddedListener(UnityAction<int> listener)
+    {
+		pointsAdded.AddListener(listener);
     }
 }

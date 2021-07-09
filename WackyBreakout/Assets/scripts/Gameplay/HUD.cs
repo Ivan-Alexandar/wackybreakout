@@ -35,7 +35,11 @@ public class HUD : MonoBehaviour
         ballsLeft = ConfigurationUtils.BallsPerGame;
         ballsLeftText = GameObject.FindGameObjectWithTag("BallsLeftText").GetComponent<Text>();
         ballsLeftText.text = BallsLeftPrefix + ballsLeft;
-	}
+
+        //event
+        EventManager.AddPointsAddedListener(AddPoints);
+        EventManager.AddBallsLostListener(ReduceBallsLeft);
+    }
 
 	#region Public methods
 
@@ -43,10 +47,11 @@ public class HUD : MonoBehaviour
 	/// Updates the score
 	/// </summary>
 	/// <param name="points">points to add</param>
-	public static void AddPoints(int points)
+     void AddPoints(int points)
     {
 		score += points;
 		scoreText.text = ScorePrefix + score;
+        
 	}
 
     /// <summary>

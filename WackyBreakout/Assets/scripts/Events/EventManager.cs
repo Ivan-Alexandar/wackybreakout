@@ -11,6 +11,13 @@ public static class EventManager
     #region Fields
     // I kind of get this how this code works. Makes a list of invokers from the PickupBlock class and a list
     // of listeners for the freezer effect event
+
+    static List<Block> pointsAddedInvokers = new List<Block>();
+    static List<UnityAction<int>> pointsAddedListeners = new List<UnityAction<int>>();
+
+    static List<Ball> ballLostInvokers = new List<Ball>();
+    static List<UnityAction> ballLostListeners = new List<UnityAction>();
+
     static List<PickupBlock> freezerEffectInvokers = new List<PickupBlock>();
     static List<UnityAction<float>> freezerEffectListeners = new List<UnityAction<float>>();
 
@@ -47,7 +54,7 @@ public static class EventManager
     }
     //^^^^^^^ The two foreach loops are made it doesn't matter what method is called first :)). ^^^^^^^^^
 
-
+    //SpeedUpEffect Methods
     public static void AddSpeedUpEffectInvoker(PickupBlock invoker)
     {
         speedUpEffectInvokers.Add(invoker);
@@ -64,6 +71,56 @@ public static class EventManager
             invoker.AddSpeedUpEffectListener(listener);
         }
     }
+
+
+    //PointsAdddedEvent Methods
+
+    public static void AddPointsAddedInvoker(Block invoker)
+    {
+        pointsAddedInvokers.Add(invoker);
+        foreach (UnityAction<int> listener in pointsAddedListeners)
+        {
+            invoker.AddPointsAddedListener(listener);
+        }
+    }
+    public static void AddPointsAddedListener(UnityAction<int> listener)
+    {
+        pointsAddedListeners.Add(listener);
+        foreach  (Block invoker in pointsAddedInvokers)
+        {
+            invoker.AddPointsAddedListener(listener);
+        }
+    }
+
+    //BallLost Event methods
+
+    public static void AddBallsLostInvoker(Ball invoker)
+    {
+        ballLostInvokers.Add(invoker);
+        foreach (UnityAction listener in ballLostListeners)
+        {
+            invoker.AddBallLostListener(listener);
+        }
+    }
+
+    public static void AddBallsLostListener(UnityAction listener)
+    {
+        ballLostListeners.Add(listener);
+        foreach (Ball invoker in ballLostInvokers)
+        {
+            invoker.AddBallLostListener(listener);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     #endregion

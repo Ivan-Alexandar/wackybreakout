@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// A ball
@@ -17,6 +18,12 @@ public class Ball : MonoBehaviour
     Rigidbody2D rb2d;
     Timer speedUpTimer;
     float speedUpFactor;
+
+
+    //Ball lost event support
+    BallLost ballLost;
+
+
 	/// <summary>
 	/// Use this for initialization
 	/// </summary>
@@ -35,6 +42,10 @@ public class Ball : MonoBehaviour
         deathTimer = gameObject.AddComponent<Timer>();
         deathTimer.Duration = ConfigurationUtils.BallLifeSeconds;
         deathTimer.Run();
+
+        //BallLost event support
+        ballLost = new BallLost();
+        EventManager.AddBallsLostInvoker(this);
     }
 
     /// <summary>
@@ -77,7 +88,8 @@ public class Ball : MonoBehaviour
             if (transform.position.y - halfColliderHeight < ScreenUtils.ScreenBottom)
             {
                 Camera.main.GetComponent<BallSpawner>().SpawnBall();
-                HUD.ReduceBallsLeft();
+                ballLost.Invoke();
+                
             }
             Destroy(gameObject);
         }
@@ -129,5 +141,10 @@ public class Ball : MonoBehaviour
         this.speedUpFactor = speedUpFactor;
         speedUpTimer.Duration = duration;
         speedUpTimer.Run();
+    }
+
+    public void AddBallLostListener(UnityAction listener)
+    {
+        ballLost.AddListener(listener);
     }
 }
