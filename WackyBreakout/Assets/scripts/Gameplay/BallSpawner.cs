@@ -45,6 +45,7 @@ public class BallSpawner : MonoBehaviour
         spawnTimer = gameObject.AddComponent<Timer>();
         spawnTimer.Duration = GetSpawnDelay();
         spawnTimer.Run();
+        spawnTimer.AddTimerFinishedEventListener(HandleSpawnTimerFinished);
 
         // spwan first ball in game
         SpawnBall();
@@ -55,15 +56,7 @@ public class BallSpawner : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		// spawn ball and restart timer as appropriate
-        if (spawnTimer.Finished)
-        {
-            // don't stack with a spawn still pending
-            retrySpawn = false;
-            SpawnBall();
-            spawnTimer.Duration = GetSpawnDelay();
-            spawnTimer.Run();
-        }
+		
 
         // try again if spawn still pending
         if (retrySpawn)
@@ -77,6 +70,7 @@ public class BallSpawner : MonoBehaviour
     /// </summary>
     public void SpawnBall()
     {
+       
         // make sure we don't spawn into a collision
         if (Physics2D.OverlapArea(spawnLocationMin, spawnLocationMax) == null)
         {
@@ -88,6 +82,15 @@ public class BallSpawner : MonoBehaviour
             retrySpawn = true;
         }
     }
+    void HandleSpawnTimerFinished()
+    {
+        // spawn ball and restart timer as appropriate
+        // don't stack with a spawn still pending
+        retrySpawn = false;
+        SpawnBall();
+        spawnTimer.Duration = GetSpawnDelay();
+        spawnTimer.Run();
+    }
 
     /// <summary>
     /// Gets the spawn delay in seconds for the next ball spawn
@@ -98,4 +101,6 @@ public class BallSpawner : MonoBehaviour
         return ConfigurationUtils.MinSpawnSeconds +
             Random.value * spawnRange;
     }
+
+    
 }

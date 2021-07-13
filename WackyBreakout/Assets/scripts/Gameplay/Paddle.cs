@@ -33,6 +33,7 @@ public class Paddle : MonoBehaviour
         //adds a timer to the gameObject / adds the new method as a listener to the FreezeEffectActivatedEvent.
         freezeTimer = gameObject.AddComponent<Timer>();
         EventManager.AddFreezerEffectListener(HandleFreezeEffectActivatedEvent);
+        freezeTimer.AddTimerFinishedEventListener(HandleFreezeTimerFinished);
 	}
 	
 	/// <summary>
@@ -40,12 +41,7 @@ public class Paddle : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-        //unfreezes the paddle when the timer finishes. Stops the timer.
-        if (freezeTimer.Finished)
-        {
-            paddleIsFrozen = false;
-            freezeTimer.Stop();
-        }
+       
 	}
 
 
@@ -145,5 +141,11 @@ public class Paddle : MonoBehaviour
             //adds time to the timer if it is already running
             freezeTimer.AddTime(duration);
         }
+    }
+    void HandleFreezeTimerFinished()
+    { 
+        //unfreezes the paddle when the timer finishes. Stops the timer.
+        paddleIsFrozen = false;
+        freezeTimer.Stop();
     }
 }

@@ -32,20 +32,25 @@ public class Ball : MonoBehaviour
         //speedup effect support
         speedUpTimer = gameObject.AddComponent<Timer>();
         EventManager.AddSpeedUpEffectListener(HandleSpeedUpEffectActivatedEvent);
+        speedUpTimer.AddTimerFinishedEventListener(HandleSpeedUpTimerFinished);
         rb2d = GetComponent<Rigidbody2D>();
         // start move timer
         moveTimer = gameObject.AddComponent<Timer>();
         moveTimer.Duration = 1;
         moveTimer.Run();
+        moveTimer.AddTimerFinishedEventListener(HandleMoveTimerFinished);
 
         // start death timer
         deathTimer = gameObject.AddComponent<Timer>();
+        deathTimer.AddTimerFinishedEventListener(HandleDeathTimerFinished);
         deathTimer.Duration = ConfigurationUtils.BallLifeSeconds;
         deathTimer.Run();
 
         //BallLost event support
         ballLost = new BallLost();
         EventManager.AddBallsLostInvoker(this);
+
+        
     }
 
     /// <summary>
@@ -53,25 +58,7 @@ public class Ball : MonoBehaviour
     /// </summary>
     void Update()
 	{
-        // move when time is up
-        if (moveTimer.Finished)
-        {
-            moveTimer.Stop();
-            StartMoving();
-        }
 
-		// die when time is up
-        if (deathTimer.Finished)
-        {
-            // spawn new ball and destroy self
-            Camera.main.GetComponent<BallSpawner>().SpawnBall();
-            Destroy(gameObject);
-        }
-        if (speedUpTimer.Finished)
-        {
-            speedUpTimer.Stop();
-            rb2d.velocity *= 1 / speedUpFactor;
-        }
 	}
 
     /// <summary>
@@ -146,5 +133,22 @@ public class Ball : MonoBehaviour
     public void AddBallLostListener(UnityAction listener)
     {
         ballLost.AddListener(listener);
+    }
+
+     void HandleMoveTimerFinished()
+    {
+        moveTimer.Stop();
+        StartMoving();
+    }
+     void HandleDeathTimerFinished()
+    {
+        // spawn new ball and destroy self
+        Camera.main.GetComponent<BallSpawner>().SpawnBall();
+        Destroy(gameObject);
+    }
+    void HandleSpeedUpTimerFinished()
+    {
+        speedUpTimer.Stop();
+        rb2d.velocity *= 1 / speedUpFactor;
     }
 }

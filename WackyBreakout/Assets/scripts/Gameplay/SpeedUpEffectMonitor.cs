@@ -27,17 +27,14 @@ public class SpeedUpEffectMonitor : MonoBehaviour
     void Start()
     {
         speedUpEffectTimer = gameObject.AddComponent<Timer>();
+        speedUpEffectTimer.AddTimerFinishedEventListener(HandleSpeedUpEffectTimerFinished);
         EventManager.AddSpeedUpEffectListener(HandleSpeedUpEffectActivatedEvent);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (speedUpEffectTimer.Finished)
-        {
-            speedUpEffectTimer.Stop();
-            speedUpFactor = 1;
-        }
+
     }
     /// <summary>
     /// Handles the SpeedUpEffectActivatedEvent
@@ -56,5 +53,10 @@ public class SpeedUpEffectMonitor : MonoBehaviour
         {
             speedUpEffectTimer.AddTime(duration);
         }
+    }
+    void HandleSpeedUpEffectTimerFinished()
+    {
+        speedUpEffectTimer.Stop();
+        speedUpFactor = 1;
     }
 }
